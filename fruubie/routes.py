@@ -99,6 +99,14 @@ def get_post():
         }
     return render_template('community.html', **context)
 
+@main.route('/community', methods=['GET'])
+def get_posts():
+    my_data = db.data.find()
+    context = {
+        'data': my_data
+    }
+    return render_template('community.html', **context)
+
 # -----------------------------------------------------------------------------------------
 
 @main.route('/create_post', methods=['GET'])
@@ -118,52 +126,6 @@ def get_user(id):
         return user_data, 200
     return {'success': False, 'message':'User not found'}, 400
 
-
-@main.route('/community', methods=['GET'])
-def get_posts():
-    my_data = db.data.find()
-    context = {
-        'data': my_data
-    }
-    return render_template('community.html', **context)
-    # args = request.args
-    # sort = args.get('sort')
-    # limit = args.get('limit')
-    # offset = args.get('offset')
-
-    # query = Post.query
-    
-    # if sort:
-    #     if sort == 'date':
-    #         query = query.order_by(Post.created_at)
-    # if limit:
-    #     query = query.limit(int(limit))
-    # if offset:
-    #     query = query.offset(offset)
-    
-    # all_posts = query.all()
-
-    # send_posts = []
-    # for post in all_posts:
-    #     found_user = post.user
-        
-    #     send_posts.append({
-    #         'title': post.title,
-    #         'content': post.content,
-    #         'created_by': post.created_by,
-    #         'user': {
-    #             'google_id': found_user.google_id,
-    #             'name': found_user.name,
-    #             'email': found_user.email,
-    #             'image': found_user.image,
-    #         }
-    #     })
-    
-    # send_data = {
-    #     'posts': send_posts,
-    #     'success': True
-    # }
-    # return send_data, 200
 
 @main.route('/create', methods=['GET','POST'])
 def create_post():
